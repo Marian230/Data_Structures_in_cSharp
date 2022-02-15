@@ -2,3 +2,5 @@
 My Implementation of some main data structures
 
 Mostly for my educational reasons and testing
+
+Repository is functional Visual Studio project 
