@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    public class MyList<T> : IEnumerable
+    public class MyList<T> : IEnumerable<T>
     {
         private T[] array;
         private int defaultSize = 2;
@@ -102,6 +102,7 @@ namespace DataStructures
         public void Clear()
         {
             this.array = new T[this.defaultSize];
+            this.Count = 0;
         }
 
         public void ForEach(Action<T> action)
@@ -153,10 +154,7 @@ namespace DataStructures
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < this.Count; i++)
-            {
-                yield return this.array[i];
-            }
+            return this.GetEnumerator();
         }
     }
 }
