@@ -21,8 +21,7 @@ namespace DataStructures
 
         public MyList(params T[] array)
         {
-            this.array = array;
-            this.Count = array.Length;
+            this.AddRange(array);
         }
         public MyList(int size) 
         {
@@ -62,6 +61,8 @@ namespace DataStructures
                 return;
             if (values.Length == 0)
                 return;
+
+            
 
             T[] newArray = new T[this.Count + values.Length];
 
@@ -107,20 +108,19 @@ namespace DataStructures
 
         public void ForEach(Action<T> action)
         {
-            for (int i = 0; i < this.Count; i++)
-                action(this.array[i]);
+            foreach (T item in this)
+                action(item);
         }
 
         public MyList<T> Where(Predicate<T> predicate)
         {
-            MyList<T> renturnList = new MyList<T>();
-            for (int i = 0; i < this.Count; i++)
-            {
-                if (predicate(this.array[i]))
-                    renturnList.Add(this.array[i]);
-            }
+            MyList<T> returnList = new MyList<T>();
 
-            return renturnList;
+            foreach (var item in this)
+                if (predicate(item))
+                    returnList.Add(item);
+
+            return returnList;
         }
 
         private void CheckRange()
@@ -131,7 +131,7 @@ namespace DataStructures
 
         private void CheckRange(int index)
         {
-            if (index >= this.Count)
+            if (index >= this.Count || index < 0)
                 throw new ArgumentOutOfRangeException("accesing item out of lists range");
         }
 
