@@ -132,7 +132,7 @@ namespace DataStructures
         private void CheckRange(int index)
         {
             if (index >= this.Count || index < 0)
-                throw new ArgumentOutOfRangeException("accesing item out of lists range");
+                throw new IndexOutOfRangeException("accesing item out of lists range");
         }
 
         private void ExtendArray()

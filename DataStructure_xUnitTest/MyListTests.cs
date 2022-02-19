@@ -15,7 +15,7 @@ namespace DataStructures.Tests
         [InlineData(0)]
         [InlineData(-1000, 1)]
         [InlineData(99999, 3, 2, 0, -33, 99)]
-        public void AddingToEmptyListTest(params int[] values)
+        public void AddToListTest(params int[] values)
         {
             MyList<int> list = new MyList<int>();
 
@@ -35,7 +35,7 @@ namespace DataStructures.Tests
         }
 
         [Fact]
-        public void AddRangeToList()
+        public void AddRangeToListTest()
         {
             MyList<int> list = new MyList<int>();
 
@@ -53,17 +53,17 @@ namespace DataStructures.Tests
         {
             MyList<int> list = new MyList<int>();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => list[0]);
-            Assert.Throws<ArgumentOutOfRangeException>(() => list[0] = 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => list.Set(0, 1));
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var item = list[0]; });
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var item = list.Get(0); });
+            Assert.Throws<IndexOutOfRangeException>(() => list[0]);
+            Assert.Throws<IndexOutOfRangeException>(() => list[0] = 1);
+            Assert.Throws<IndexOutOfRangeException>(() => list.Set(0, 1));
+            Assert.Throws<IndexOutOfRangeException>(() => { var item = list[0]; });
+            Assert.Throws<IndexOutOfRangeException>(() => { var item = list.Get(0); });
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => list[-2]);
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var item = list[-2]; });
+            Assert.Throws<IndexOutOfRangeException>(() => list[-2]);
+            Assert.Throws<IndexOutOfRangeException>(() => { var item = list[-2]; });
 
             list.AddRange(3, 4);
-            Assert.Throws<ArgumentOutOfRangeException>(() => list[2]);
+            Assert.Throws<IndexOutOfRangeException>(() => list[2]);
         }
 
         [Fact]

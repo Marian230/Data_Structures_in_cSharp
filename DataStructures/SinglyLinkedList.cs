@@ -32,6 +32,12 @@ namespace DataStructures
 
         public void AddFirst(SinglyNode<T> node)
         {
+            if (this.First == null)
+            {
+                this.First = node;
+                this.Last = node;
+            }
+
             node.Next = this.First;
             this.First = node;
 
@@ -113,6 +119,9 @@ namespace DataStructures
             var tmpNode = this.Find(x => x.Next == node);
             tmpNode.Next = node.Next;
 
+            if (this.Last == node)
+                this.Last = tmpNode;
+
             this.Count--;
         }
 
@@ -121,14 +130,18 @@ namespace DataStructures
             if (value == null)
                 return;
 
-            if (EqualityComparer<T>.Default.Equals(this.First.Value, value))
-            {
+            if (Compare(this.First.Value, value))
                 this.RemoveFirst();
-                return;
-            }
+            else
+                this.InternalRemove(this.Find(x => Compare(x.Next.Value, value)));
+        }
 
-            var tmpNode = this.Find(x => EqualityComparer<T>.Default.Equals(x.Next.Value, value));
-            tmpNode.Next = tmpNode.Next.Next;
+        // helping method for removing
+        private void InternalRemove(SinglyNode<T> beforeRemoved)
+        {
+            if (beforeRemoved.Next == this.Last)
+                this.Last = beforeRemoved;
+            beforeRemoved.Next = beforeRemoved.Next.Next;
 
             this.Count--;
         }
@@ -136,7 +149,7 @@ namespace DataStructures
         public void RemoveFirst()
         {
             if (this.First == null)
-                throw new Exception("LinkedList is empty");
+                throw new IndexOutOfRangeException("LinkedList is empty");
 
             this.First = this.First.Next;
             this.Count--;
@@ -145,7 +158,7 @@ namespace DataStructures
         public void RemoveLast()
         {
             if (this.Last == null)
-                throw new Exception("LinkedList is empty");
+                throw new IndexOutOfRangeException("LinkedList is empty");
 
             this.Remove(this.Last);
         }
@@ -171,8 +184,8 @@ namespace DataStructures
 
         public SinglyNode<T> Find(int index)
         {
-            if (index >= this.Count)
-                throw new Exception("trying access item out of LinkedList");
+            if (index >= this.Count && index < 0)
+                throw new IndexOutOfRangeException("trying access item out of LinkedList");
 
             SinglyNode<T> currNode = this.First;
             for (int i = 0; i < index; i++)
@@ -196,7 +209,7 @@ namespace DataStructures
                 return false;
 
             foreach (var item in this)
-                if (EqualityComparer<T>.Default.Equals(item, value))
+                if (Compare(item, value))
                     return true;
 
             return false;
@@ -240,6 +253,11 @@ namespace DataStructures
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        public static bool Compare(T x, T y)
+        {
+            return EqualityComparer<T>.Default.Equals(x, y);
         }
     }
 
