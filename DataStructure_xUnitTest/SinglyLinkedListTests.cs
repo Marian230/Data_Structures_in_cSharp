@@ -180,5 +180,19 @@ namespace DataStructures.Tests
             for (int i = 0; i < list.Count; i++)
                 Assert.Equal(list.Find(i).Value, list2.Find(i).Value); 
         }
+
+        [Fact]
+        public void OutOfRangeFindByIndexLinkedList()
+        {
+            list = new SinglyLinkedList<int>();
+
+            Assert.ThrowsAny<IndexOutOfRangeException>(() => list.Find(-1));
+            Assert.ThrowsAny<IndexOutOfRangeException>(() => list.Find(0));
+
+
+            list = new SinglyLinkedList<int>(0, 1);
+
+            Assert.ThrowsAny<IndexOutOfRangeException>(() => list.Find(2));
+        }
     }
 }

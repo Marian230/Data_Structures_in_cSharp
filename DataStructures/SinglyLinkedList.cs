@@ -32,6 +32,9 @@ namespace DataStructures
 
         public void AddFirst(SinglyNode<T> node)
         {
+            if (node == null)
+                return;
+
             if (this.First == null)
             {
                 this.First = node;
@@ -51,6 +54,9 @@ namespace DataStructures
 
         public void AddLast(SinglyNode<T> node)
         {
+            if (node == null)
+                return;
+
             if (this.First == null)
                 this.First = node;
             else if (this.Last == null)
@@ -69,6 +75,9 @@ namespace DataStructures
 
         public void AddAfter(SinglyNode<T> after, SinglyNode<T> newNode)
         {
+            if (newNode == null || after == null)
+                return;
+
             if (!this.Contains(after))
                 throw new ArgumentOutOfRangeException("The LinkedList node does not belong to current LinkedList");
 
@@ -86,6 +95,9 @@ namespace DataStructures
 
         public void AddBefore(SinglyNode<T> before, SinglyNode<T> newNode)
         {
+            if (newNode == null || before == null)
+                return;
+
             if (!this.Contains(before))
                 throw new ArgumentOutOfRangeException("The LinkedList node does not belong to current LinkedList");
 
@@ -171,6 +183,9 @@ namespace DataStructures
 
         public int? GetIndexByNode(SinglyNode<T> searchedNode)
         {
+            if (searchedNode == null)
+                return null;
+
             SinglyNode<T> currNode = this.First;
             for (int i = 0; i < this.Count; i++)
             {
@@ -184,14 +199,19 @@ namespace DataStructures
 
         public SinglyNode<T> Find(int index)
         {
-            if (index >= this.Count && index < 0)
-                throw new IndexOutOfRangeException("trying access item out of LinkedList");
+            this.CheckIndex(index);
 
             SinglyNode<T> currNode = this.First;
             for (int i = 0; i < index; i++)
                 currNode = currNode.Next;
 
             return currNode;
+        }
+
+        private void CheckIndex(int index)
+        {
+            if (index >= this.Count || index < 0)
+                throw new IndexOutOfRangeException("trying access item out of LinkedList");
         }
 
         public SinglyNode<T> Find(Predicate<SinglyNode<T>> predicate)
